@@ -4,20 +4,20 @@ Thesis question: To what extent can incorporating system-level information, such
 
 
 To implement: 
-1. Static Thresholding (CUSUM)
-2. Adaptive Thresholding (Mukherjee et. Al., Real-time adaptation of decision thresholds in sensor networks for detection of moving targets)
-3. Load-Aware Adaptive Thresholding (extends the calculation of the threshold with the System
+1. Static Thresholding (CUSUM, self-implemented in python)
+2. Adaptive Thresholding (Mukherjee et. Al., Real-time adaptation of decision thresholds in sensor networks for detection of moving targets, self-implemented core concepts)
+3. Load-Aware Adaptive Thresholding (threshhold is additionally dependent on the utilization of the receiver - linearly/exponentially)
 
 
-Offene Fragen:
+System Design and Experiment:
 
-System-Load Begriff:
-- Mit System load ist der Empfänger der Daten gemeint, d.h. nicht der Sensor selbst
+Sender/Device <=> Receiver
 
-Adaptive Thresholding Simulieren:
-- Was ist eine sinnvolle Komplexität für die Baseline adaptive Thresholding? (z.B: 
+Sender sends data continously with different Change Detection mechanisms (1. / 2. / 3.).
 
-Welche Metriken zur Performance?
-- Reproduktionsfehler (Gefilterter vs. orginaler DS)
+Receiver has constant resources, but will receive load spikes during the experiment.
+
+Measurements during the experiment:
+- Reproduction error of original and received data stream
 - Latency
 - Throughput
