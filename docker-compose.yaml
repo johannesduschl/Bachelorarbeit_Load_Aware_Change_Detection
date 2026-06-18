@@ -1,0 +1,25 @@
+services:
+
+  weatherSensor:
+    build:
+      context: ./weatherSensor
+    image: weather-sensor
+
+  oilSensor:
+    build:
+      context: ./oilSensor
+    image: oil-sensor
+
+  changeDetector:
+    build:
+      context: ./changeDetector
+    image: change-detector
+    depends_on:
+      - weatherSensor
+      - oilSensor
+      - receiver
+
+  receiver:
+    build:
+      context: ./receiver
+    image: receiver
