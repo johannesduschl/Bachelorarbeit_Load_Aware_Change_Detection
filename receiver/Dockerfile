@@ -2,14 +2,15 @@ FROM gradle:8.8-jdk21 AS build
 
 WORKDIR /app
 
-COPY src/main .
+COPY . .
 
-RUN gradle installDist --no-daemon
+RUN chmod +x ./gradlew
+RUN ./gradlew :receiver:installDist --no-daemon
 
 FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY --from=build /app/build/install/receiver ./
+COPY --from=build /app/receiver/build/install/receiver /app
 
-CMD ["bin/receiver"]
+ENTRYPOINT ["bin/receiver"]
