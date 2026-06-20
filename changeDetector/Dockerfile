@@ -4,13 +4,12 @@ WORKDIR /app
 
 COPY . .
 
-RUN chmod +x ./gradlew
-RUN ./gradlew :changeDetector:installDist --no-daemon
+RUN gradle :changeDetector:installDist --no-daemon
 
 FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY --from=build /app/changeDetector/build/install/changeDetector /app
+COPY --from=build /app/changeDetector/build/install/changeDetector ./
 
-ENTRYPOINT ["bin/changeDetector"]
+CMD ["bin/changeDetector"]

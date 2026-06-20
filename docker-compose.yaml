@@ -2,17 +2,20 @@ services:
 
   weatherSensor:
     build:
-      context: ./weatherSensor
+      context: .
+      dockerfile: weatherSensor/Dockerfile
     image: weather-sensor
 
   oilSensor:
     build:
-      context: ./oilSensor
+      context: .
+      dockerfile: oilSensor/Dockerfile
     image: oil-sensor
 
   changeDetector:
     build:
-      context: ./changeDetector
+      context: .
+      dockerfile: changeDetector/Dockerfile
     image: change-detector
     depends_on:
       - weatherSensor
@@ -21,5 +24,6 @@ services:
 
   receiver:
     build:
-      context: ./receiver
+      context: .
+      dockerfile: receiver/Dockerfile
     image: receiver

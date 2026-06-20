@@ -4,12 +4,12 @@ WORKDIR /app
 
 COPY . .
 
-RUN ./gradlew :weatherSensor:installDist --no-daemon
+RUN gradle :weatherSensor:installDist --no-daemon
 
 FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY --from=build /app/weatherSensor/build/install/weatherSensor /app
+COPY --from=build /app/weatherSensor/build/install/weatherSensor ./
 
-ENTRYPOINT ["bin/weatherSensor"]
+CMD ["bin/weatherSensor"]
