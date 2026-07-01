@@ -3,5 +3,5 @@ plugins {
 }
 
 application {
-    mainClass.set("weatherSensor")
+    mainClass.set("WeatherSensor")
 }
