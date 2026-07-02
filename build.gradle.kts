@@ -5,6 +5,7 @@ subprojects {
         mavenCentral()
     }
 
+
     dependencies {
         add("compileOnly", "org.projectlombok:lombok:1.18.38")
         add("annotationProcessor", "org.projectlombok:lombok:1.18.38")
