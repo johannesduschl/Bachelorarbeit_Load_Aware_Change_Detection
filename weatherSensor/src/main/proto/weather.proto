@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package weather;
+
+option java_multiple_files = true;
+option java_package = "weather.grpc";
+
+service ChangeDetectorService {
+  rpc SendWeatherData(stream WeatherDataRequest) returns (WeatherDataResponse);
+}
+
+message WeatherDataRequest {
+  int64 timestamp = 1;
+  double temperature = 2;
+}
+
+message WeatherDataResponse {
+  bool received = 1;
+}
