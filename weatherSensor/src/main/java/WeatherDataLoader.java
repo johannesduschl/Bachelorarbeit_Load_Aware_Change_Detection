@@ -2,6 +2,8 @@ import lombok.NoArgsConstructor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -24,7 +26,16 @@ public class WeatherDataLoader {
 
     public List<WeatherData> loadWeatherData(int size) throws IOException {
 
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("weatherSensor/src/main/resources/data.txt"))) {
+        InputStream input = getClass()
+                .getClassLoader()
+                .getResourceAsStream("data.txt");
+
+        if (input == null){
+            System.out.println("Input was null");
+            return null;
+        }
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(input))) {
             List<WeatherData> data = new ArrayList<>();
             String line;
             int count = 0;
