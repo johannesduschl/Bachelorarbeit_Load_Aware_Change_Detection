@@ -1,4 +1,4 @@
-package weatherData;
+package common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Data
-public class WeatherData {
+public class SensorData {
     LocalDateTime timestamp;
-    double temperature;
+    double value;
 }

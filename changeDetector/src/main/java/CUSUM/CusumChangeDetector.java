@@ -1,10 +1,17 @@
 package CUSUM;
 
-import weatherData.WeatherData;
+import common.SensorData;
 
 public class CusumChangeDetector {
 
-    public void sendSensorData(WeatherData data){
-        System.out.println("Received data: " + data.getTemperature() + " at " + data.getTimestamp());
+    double globalMean = 0;
+
+    public void setGlobalMean(double globalMean){
+        System.out.println("Global mean received: " + globalMean);
+        this.globalMean = globalMean;
+    }
+
+    public void sendSensorData(SensorData data){
+        System.out.println("Received data: " + data.getValue() + " at " + data.getTimestamp());
     }
 }

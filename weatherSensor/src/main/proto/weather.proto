@@ -6,7 +6,16 @@ option java_multiple_files = true;
 option java_package = "weather.grpc";
 
 service ChangeDetectorService {
+  rpc SendGlobalMean(GlobalMeanRequest) returns (GlobalMeanResponse);
   rpc SendWeatherData(stream WeatherDataRequest) returns (WeatherDataResponse);
+}
+
+message GlobalMeanRequest {
+  double globalMean = 1;
+}
+
+message GlobalMeanResponse {
+  bool received = 1;
 }
 
 message WeatherDataRequest {

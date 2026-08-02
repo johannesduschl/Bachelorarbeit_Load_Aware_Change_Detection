@@ -1,11 +1,10 @@
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -16,6 +15,9 @@ import java.util.List;
 
 @NoArgsConstructor
 public class WeatherDataLoader {
+
+    @Getter
+    private double globalMean;
 
     private final DateTimeFormatter formatter = new DateTimeFormatterBuilder()
             .appendPattern("yyyy-MM-dd HH:mm:ss")
@@ -39,18 +41,32 @@ public class WeatherDataLoader {
             List<WeatherData> data = new ArrayList<>();
             String line;
             int count = 0;
+            double temperatureSum = 0;
 
             while ((line = br.readLine()) != null && count < size) {
-                String[] split = line.split(" ");
 
-                LocalDateTime timestamp = LocalDateTime.parse(split[0] + " " + split[1], formatter);
-                double temperature = Double.parseDouble(split[5]);
-                WeatherData weatherData = new WeatherData(timestamp, temperature);
-                data.add(weatherData);
-                count++;
+                try {
+                    String[] split = line.trim().split("\\s+");
+
+                    LocalDateTime timestamp = LocalDateTime.parse(split[0] + " " + split[1], formatter);
+                    double temperature = Double.parseDouble(split[5]);
+                    WeatherData weatherData = new WeatherData(timestamp, temperature);
+                    data.add(weatherData);
+
+
+                    count++;
+                    temperatureSum += temperature;
+
+                } catch (Exception e){
+                    System.out.println("Error parsing line: "+ line);
+                    System.out.println(e.getMessage());
+                }
             }
 
+            System.out.println("size: " + count);
+
             sortWeatherDataByTimestamp(data);
+            this.globalMean = (temperatureSum / count);
 
             return data;
         }
