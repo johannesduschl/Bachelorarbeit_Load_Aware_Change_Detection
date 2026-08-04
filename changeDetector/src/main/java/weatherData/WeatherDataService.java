@@ -1,29 +1,37 @@
 package weatherData;
 
-import CUSUM.CusumChangeDetector;
+import common.ChangeDetector;
 import common.SensorData;
 import io.grpc.stub.StreamObserver;
-import weather.grpc.ChangeDetectorServiceGrpc;
-import weather.grpc.GlobalMeanRequest;
-import weather.grpc.GlobalMeanResponse;
-import weather.grpc.WeatherDataRequest;
-import weather.grpc.WeatherDataResponse;
+import lombok.AllArgsConstructor;
+import weather.grpc.*;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+@AllArgsConstructor
 public class WeatherDataService extends ChangeDetectorServiceGrpc.ChangeDetectorServiceImplBase {
 
-    private final CusumChangeDetector cusumChangeDetector = new CusumChangeDetector();
+    private final ChangeDetector changeDetector;
 
     @Override
     public void sendGlobalMean(GlobalMeanRequest request, StreamObserver<GlobalMeanResponse> responseObserver) {
-        cusumChangeDetector.setGlobalMean(request.getGlobalMean());
-
+        System.out.println("Received global mean: " + request.getGlobalMean());
+        changeDetector.setMean(request.getGlobalMean());
         responseObserver.onNext(GlobalMeanResponse.newBuilder().setReceived(true).build());
         responseObserver.onCompleted();
     }
+
+
+    @Override
+    public void sendGlobalSigma(GlobalSigmaRequest request, StreamObserver<GlobalSigmaResponse> responseObserver) {
+        System.out.println("Received global sigma: " + request.getGlobalSigma());
+        changeDetector.setStd(request.getGlobalSigma());
+        responseObserver.onNext(GlobalSigmaResponse.newBuilder().setReceived(true).build());
+        responseObserver.onCompleted();
+    }
+
 
     @Override
     public StreamObserver<WeatherDataRequest> sendWeatherData(StreamObserver<WeatherDataResponse> responseObserver) {
@@ -33,7 +41,7 @@ public class WeatherDataService extends ChangeDetectorServiceGrpc.ChangeDetector
             public void onNext(WeatherDataRequest request) {
                 LocalDateTime timestamp = LocalDateTime.ofInstant(Instant.ofEpochSecond(request.getTimestamp()), ZoneOffset.UTC);
                 SensorData data = new SensorData(timestamp, request.getTemperature());
-                cusumChangeDetector.sendSensorData(data);
+                changeDetector.sendSensorData(data);
             }
 
             @Override

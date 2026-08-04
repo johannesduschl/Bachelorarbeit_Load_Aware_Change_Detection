@@ -7,11 +7,24 @@ option java_package = "weather.grpc";
 
 service ChangeDetectorService {
   rpc SendGlobalMean(GlobalMeanRequest) returns (GlobalMeanResponse);
+  rpc SendGlobalSigma(GlobalSigmaRequest) returns (GlobalSigmaResponse);
   rpc SendWeatherData(stream WeatherDataRequest) returns (WeatherDataResponse);
+}
+
+service ReceiverService {
+  rpc SendWeatherData(stream WeatherDataRequest) returns (WeatherDataResponse);
+}
+
+message GlobalSigmaRequest {
+  double globalSigma = 1;
 }
 
 message GlobalMeanRequest {
   double globalMean = 1;
+}
+
+message GlobalSigmaResponse {
+  bool received = 1;
 }
 
 message GlobalMeanResponse {

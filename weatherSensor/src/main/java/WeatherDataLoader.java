@@ -19,6 +19,9 @@ public class WeatherDataLoader {
     @Getter
     private double globalMean;
 
+    @Getter
+    private double globalSigma;
+
     private final DateTimeFormatter formatter = new DateTimeFormatterBuilder()
             .appendPattern("yyyy-MM-dd HH:mm:ss")
             .optionalStart()
@@ -30,9 +33,9 @@ public class WeatherDataLoader {
 
         InputStream input = getClass()
                 .getClassLoader()
-                .getResourceAsStream("data.txt");
+                .getResourceAsStream("data_cleaned.txt");
 
-        if (input == null){
+        if (input == null) {
             System.out.println("Input was null");
             return null;
         }
@@ -53,12 +56,11 @@ public class WeatherDataLoader {
                     WeatherData weatherData = new WeatherData(timestamp, temperature);
                     data.add(weatherData);
 
-
                     count++;
                     temperatureSum += temperature;
 
-                } catch (Exception e){
-                    System.out.println("Error parsing line: "+ line);
+                } catch (Exception e) {
+                    System.out.println("Error parsing line: " + line);
                     System.out.println(e.getMessage());
                 }
             }
@@ -67,12 +69,31 @@ public class WeatherDataLoader {
 
             sortWeatherDataByTimestamp(data);
             this.globalMean = (temperatureSum / count);
+            this.globalSigma = computeStdDev(data, this.globalMean);
 
             return data;
         }
     }
 
-    private void sortWeatherDataByTimestamp(List<WeatherData> data){
+
+    private double computeStdDev(List<WeatherData> data, double mean) {
+        int n = data.size();
+        if (n <= 1) {
+            return 0;
+        }
+
+        double sumSquaredDiffs = 0;
+        for (WeatherData w : data) {
+            double diff = w.getTemperature() - mean;
+            sumSquaredDiffs += diff * diff;
+        }
+
+        double variance = sumSquaredDiffs / (n - 1);
+        return Math.sqrt(variance);
+    }
+
+
+    private void sortWeatherDataByTimestamp(List<WeatherData> data) {
         data.sort(Comparator.comparing(w -> w.timestamp));
     }
 }

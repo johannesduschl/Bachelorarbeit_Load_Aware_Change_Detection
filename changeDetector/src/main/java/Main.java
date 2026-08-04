@@ -1,3 +1,5 @@
+import CUSUM.CusumChangeDetector;
+import common.ChangeDetector;
 import weatherData.WeatherDataService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
@@ -8,16 +10,16 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("ChangeDetector started.");
         try {
-            createWeatherServer();
+            createWeatherServer(new CusumChangeDetector());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error starting ChangeDetector server: " + e.getMessage());
         }
     }
 
-    private static void createWeatherServer() throws IOException, InterruptedException {
+    private static void createWeatherServer(ChangeDetector changeDetector) throws IOException, InterruptedException {
         Server server = ServerBuilder
                 .forPort(50051)
-                .addService(new WeatherDataService())
+                .addService(new WeatherDataService(changeDetector))
                 .build();
 
         server.start();

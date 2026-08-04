@@ -1,17 +1,33 @@
 package CUSUM;
 
+import common.ChangeDetector;
 import common.SensorData;
 
-public class CusumChangeDetector {
+public class CusumChangeDetector extends ChangeDetector {
 
-    double globalMean = 0;
+    private double positiveCusum = 0;
+    private double negativeCusum = 0;
 
-    public void setGlobalMean(double globalMean){
-        System.out.println("Global mean received: " + globalMean);
-        this.globalMean = globalMean;
-    }
+    @Override
+    public void sendSensorData(SensorData data) {
+        double deviation = data.getValue() - mean;
 
-    public void sendSensorData(SensorData data){
-        System.out.println("Received data: " + data.getValue() + " at " + data.getTimestamp());
+        final double K = 0.5 * std;
+        final double H = 5.0 * std;
+
+        positiveCusum = Math.max(0, positiveCusum + deviation - K);
+        negativeCusum = Math.max(0, negativeCusum - deviation - K);
+
+        if (positiveCusum > H || negativeCusum > H) {
+            System.out.println("Change detected: " + data.getValue());
+
+            receiverClient.send(data);
+
+            positiveCusum = 0;
+            negativeCusum = 0;
+        } else {
+
+            System.out.println("No change detected: " + data.getValue());
+        }
     }
 }
