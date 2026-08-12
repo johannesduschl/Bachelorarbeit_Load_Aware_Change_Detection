@@ -1,4 +1,4 @@
-package CUSUM;
+package static_change_detection;
 
 import common.ChangeDetector;
 import common.SensorData;
@@ -21,12 +21,13 @@ public class CusumChangeDetector extends ChangeDetector {
         if (positiveCusum > H || negativeCusum > H) {
             System.out.println("Change detected: " + data.getValue());
 
+            benchmark.storeData(data, true);
             receiverClient.send(data);
 
             positiveCusum = 0;
             negativeCusum = 0;
         } else {
-
+            benchmark.storeData(data, false);
             System.out.println("No change detected: " + data.getValue());
         }
     }

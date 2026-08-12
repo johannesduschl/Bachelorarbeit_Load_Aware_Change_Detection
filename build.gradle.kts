@@ -22,6 +22,7 @@ subprojects {
         add("implementation", "io.grpc:grpc-stub:1.65.1")
         add("implementation", "com.google.protobuf:protobuf-java:3.25.3")
         add("implementation", "javax.annotation:javax.annotation-api:1.3.2")
+        add("implementation", "nz.ac.waikato.cms.moa:moa:2024.07.0")
     }
 
     configure<com.google.protobuf.gradle.ProtobufExtension> {

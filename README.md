@@ -4,7 +4,7 @@ Thesis question: To what extent can incorporating system-level information, such
 
 
 To implement: 
-1. CUSUM (static approach)
+1. static_change_detection (static approach)
 2. Adaptive Thresholding (Mukherjee et. Al., Real-time adaptation of decision thresholds in sensor networks for detection of moving targets, self-implemented core concepts)
 3. Load-Aware Adaptive Thresholding (threshhold is additionally dependent on the utilization of the receiver - linearly/exponentially)
 
