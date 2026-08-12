@@ -20,8 +20,8 @@ public class Receiver {
 
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(() -> {
-            if (System.currentTimeMillis() - lastReceived >= 10000) {
-                System.out.println("No data received for 10 seconds. Received values: " + valueHistory.size());
+            if (System.currentTimeMillis() - lastReceived >= 50000) {
+                System.out.println("No data received for 50 seconds. Received values: " + valueHistory.size());
                 server.shutdown();
                 scheduler.shutdown();
             }

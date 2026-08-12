@@ -12,6 +12,8 @@ public class AdaptiveCusumChangeDetector extends ChangeDetector {
 
     @Override
     public void sendSensorData(SensorData data) {
+        resetInactivityTimer();
+
         double currentMean = mean;
         double currentStd = Math.max(std, 1e-9);
         double deviation = data.getValue() - currentMean;

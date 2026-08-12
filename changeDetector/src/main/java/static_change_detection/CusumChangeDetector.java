@@ -10,6 +10,8 @@ public class CusumChangeDetector extends ChangeDetector {
 
     @Override
     public void sendSensorData(SensorData data) {
+        resetInactivityTimer();
+
         double deviation = data.getValue() - mean;
 
         final double K = 0.5 * std;
