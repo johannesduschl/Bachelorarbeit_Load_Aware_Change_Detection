@@ -15,7 +15,7 @@ public class CusumChangeDetector extends ChangeDetector {
         double deviation = data.getValue() - mean;
 
         final double K = 0.5 * std;
-        final double H = 5.0 * std;
+        final double H = 2.5 * std;
 
         positiveCusum = Math.max(0, positiveCusum + deviation - K);
         negativeCusum = Math.max(0, negativeCusum - deviation - K);

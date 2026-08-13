@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class Main {
 
-    static ChangeDetector changeDetector = new CusumChangeDetector();
+    static ChangeDetector changeDetector = new AdaptiveCusumChangeDetector();
 
     public static void main(String[] args) {
         System.out.println("ChangeDetector started.");

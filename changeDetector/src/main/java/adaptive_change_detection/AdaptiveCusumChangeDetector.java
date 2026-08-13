@@ -18,7 +18,7 @@ public class AdaptiveCusumChangeDetector extends ChangeDetector {
         double currentStd = Math.max(std, 1e-9);
         double deviation = data.getValue() - currentMean;
         double K = 0.5 * currentStd;
-        double H = 5.0 * currentStd;
+        double H = 2.5 * currentStd;
 
         System.out.println("Mean = " + currentMean + ", Std = " + currentStd + ", Deviation = " + deviation);
 
