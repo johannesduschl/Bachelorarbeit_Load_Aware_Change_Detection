@@ -2,7 +2,6 @@ package change_detection_approaches;
 
 import common.ChangeDetector;
 import common.SensorData;
-import lombok.NoArgsConstructor;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -16,6 +15,7 @@ public class LoadAwareAdaptiveChangeDetector extends ChangeDetector {
     private double runningMean;
 
     private volatile double utilization;
+    private final double targetUtilization = 0.5;
 
     public LoadAwareAdaptiveChangeDetector() {
         ScheduledExecutorService utilizationScheduler = Executors.newSingleThreadScheduledExecutor();
@@ -28,14 +28,18 @@ public class LoadAwareAdaptiveChangeDetector extends ChangeDetector {
         this.runningMean = globalMean;
     }
 
+    /**
+     * adapts the K parameter dynamically based on the utilization
+     * 0.5 to 2 of the original parameter
+     */
     @Override
     public double getK() {
-        return super.getK() * Math.exp(Math.log(2) * utilization);
+        return super.getK() * Math.pow(2, 2 * (utilization - targetUtilization));
     }
 
     @Override
     public double getH() {
-        return super.getH() * Math.exp(Math.log(2) * utilization);
+        return super.getH() * Math.pow(2, 2 * (utilization - targetUtilization));
     }
 
     @Override
