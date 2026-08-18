@@ -27,13 +27,14 @@ public class AdaptiveCusumChangeDetector extends ChangeDetector {
         double K = getK();
         double H = getH();
 
-        System.out.println("Mean = " + runningMean + ", Deviation = " + deviation);
-
         positiveCusum = Math.max(0, positiveCusum + deviation - K);
         negativeCusum = Math.max(0, negativeCusum - deviation - K);
 
         boolean changeDetected = positiveCusum > H || negativeCusum > H;
         benchmark.storeData(data, changeDetected);
+
+        String changeStatus = changeDetected ? "<--- Change Detected" : "";
+        System.out.printf("Value = %f; Mean = %f; Deviation = %f; %s}%n", value, runningMean, deviation, changeStatus);
 
         if (changeDetected) {
             receiverClient.send(data);
@@ -43,9 +44,5 @@ public class AdaptiveCusumChangeDetector extends ChangeDetector {
         } else {
             this.runningMean = (1 - alpha) * runningMean + alpha * data.getValue();
         }
-
-
-        //double newVariance = (1 - alpha) * currentStd * currentStd + alpha * Math.pow(data.getValue() - currentMean, 2);
-        //globalStd = Math.max(Math.sqrt(newVariance), 1e-9);
     }
 }

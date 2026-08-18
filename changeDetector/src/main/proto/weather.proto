@@ -13,7 +13,14 @@ service ChangeDetectorService {
 
 service ReceiverService {
   rpc SendWeatherData(stream WeatherDataRequest) returns (WeatherDataResponse);
+  rpc GetUtilization(Empty) returns (UtilizationResponse);
 }
+
+message UtilizationResponse {
+  double utilization = 1;
+}
+
+message Empty {}
 
 message GlobalSigmaRequest {
   double globalSigma = 1;

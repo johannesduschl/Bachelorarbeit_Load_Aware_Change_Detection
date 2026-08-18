@@ -1,5 +1,6 @@
 package common;
 
+import weather.grpc.Empty;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -12,11 +13,13 @@ import java.time.ZoneOffset;
 public class ReceiverClient {
     private final ManagedChannel channel;
     private final ReceiverServiceGrpc.ReceiverServiceStub stub;
+    private final ReceiverServiceGrpc.ReceiverServiceBlockingStub blockingStub;;
     private StreamObserver<WeatherDataRequest> requestObserver;
 
     public ReceiverClient(String host, int port) {
         channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
         stub = ReceiverServiceGrpc.newStub(channel);
+        blockingStub = ReceiverServiceGrpc.newBlockingStub(channel);
         openStream();
     }
 
@@ -42,6 +45,10 @@ public class ReceiverClient {
                         .setTemperature(data.getValue())
                         .build()
         );
+    }
+
+    public double getReceiverUtilization() {
+        return blockingStub.getUtilization(Empty.newBuilder().build()).getUtilization();
     }
 
     public void close() {

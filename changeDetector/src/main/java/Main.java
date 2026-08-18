@@ -1,4 +1,5 @@
 import change_detection_approaches.AdaptiveCusumChangeDetector;
+import change_detection_approaches.LoadAwareAdaptiveChangeDetector;
 import common.ChangeDetector;
 import change_detection_approaches.StaticCusumChangeDetector;
 import weatherData.DataService;
@@ -9,7 +10,7 @@ import java.io.IOException;
 
 public class Main {
 
-    static ChangeDetector changeDetector = new StaticCusumChangeDetector();
+    static ChangeDetector changeDetector = new LoadAwareAdaptiveChangeDetector();
 
     public static void main(String[] args) {
         System.out.println("ChangeDetector started.");
