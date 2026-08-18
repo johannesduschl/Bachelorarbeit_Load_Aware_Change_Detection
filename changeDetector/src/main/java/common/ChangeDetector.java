@@ -7,10 +7,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public abstract class ChangeDetector {
+    @Getter
+    protected double globalMean = 0;
     @Setter @Getter
-    protected double mean = 0;
-    @Setter @Getter
-    protected double std = 0;
+    protected double globalStd = 0;
 
     protected ChangeDetectionBenchmark benchmark = new ChangeDetectionBenchmark();
 
@@ -20,9 +20,23 @@ public abstract class ChangeDetector {
     @Setter
     private Runnable inactivityCallback;
 
+    public double getK(){
+        return 0.25 * globalStd;
+    }
+
+    public double getH(){
+        return 2.5 * globalStd;
+    }
+
+    public void setGlobalMean(double globalMean){
+        this.globalMean = globalMean;
+    }
+
     public void printBenchmarkResults(){
         System.out.println(benchmark.calculateResults());
     }
+
+
 
     public abstract void sendSensorData(SensorData entry);
 

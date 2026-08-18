@@ -1,0 +1,7 @@
+adaptive, 10.000 data points
+BenchmarkResult(sentCount=1652, discardedCount=8348, transmissionRate=0.1652, mae=1.5227003354096735,
+rmse=1.9505478202857183, maxError=5.663899999999998, maeTimesTransmissionRate=0.2515500954096781)
+
+static, 10.000 data points
+BenchmarkResult(sentCount=706, discardedCount=9294, transmissionRate=0.0706, mae=3.8428560146331012, 
+rmse=4.610430982184297, maxError=9.745799999999996, maeTimesTransmissionRate=0.2713056346330969)

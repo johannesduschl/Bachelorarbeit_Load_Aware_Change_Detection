@@ -1,8 +1,7 @@
-import adaptive_change_detection.AdaptiveCusumChangeDetector;
-import common.BenchmarkResult;
+import change_detection_approaches.AdaptiveCusumChangeDetector;
 import common.ChangeDetector;
-import static_change_detection.CusumChangeDetector;
-import weatherData.WeatherDataService;
+import change_detection_approaches.StaticCusumChangeDetector;
+import weatherData.DataService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
@@ -10,7 +9,7 @@ import java.io.IOException;
 
 public class Main {
 
-    static ChangeDetector changeDetector = new AdaptiveCusumChangeDetector();
+    static ChangeDetector changeDetector = new StaticCusumChangeDetector();
 
     public static void main(String[] args) {
         System.out.println("ChangeDetector started.");
@@ -25,7 +24,7 @@ public class Main {
 
         Server server = ServerBuilder
                 .forPort(50051)
-                .addService(new WeatherDataService(changeDetector))
+                .addService(new DataService(changeDetector))
                 .build();
         server.start();
         System.out.println("ChangeDetector listening on 50051");

@@ -1,9 +1,11 @@
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
+import weather.grpc.Empty;
 import weather.grpc.ReceiverServiceGrpc;
 import weather.grpc.WeatherDataRequest;
 import weather.grpc.WeatherDataResponse;
+import weather.grpc.UtilizationResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -52,6 +54,13 @@ public class Receiver {
                     responseObserver.onCompleted();
                 }
             };
+        }
+
+        @Override
+        public void getUtilization(Empty request, StreamObserver<UtilizationResponse> responseObserver) {
+            double utilization = valueHistory.size();
+            responseObserver.onNext(UtilizationResponse.newBuilder().setUtilization(utilization).build());
+            responseObserver.onCompleted();
         }
     }
 }

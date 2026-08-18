@@ -7,6 +7,7 @@ option java_package = "weather.grpc";
 
 service ReceiverService {
   rpc SendWeatherData(stream WeatherDataRequest) returns (WeatherDataResponse);
+  rpc GetUtilization(Empty) returns (UtilizationResponse);
 }
 
 message WeatherDataRequest {
@@ -17,3 +18,9 @@ message WeatherDataRequest {
 message WeatherDataResponse {
   bool received = 1;
 }
+
+message UtilizationResponse {
+  double utilization = 1;
+}
+
+message Empty {}

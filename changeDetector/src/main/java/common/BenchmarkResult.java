@@ -39,4 +39,9 @@ public class BenchmarkResult {
      * Maximum absolute reconstruction error observed among discarded events.
      */
     private final double maxError;
+
+    /**
+     * MAE multiplied with the transmissionRate
+     */
+    private final double maeTimesTransmissionRate;
 }
