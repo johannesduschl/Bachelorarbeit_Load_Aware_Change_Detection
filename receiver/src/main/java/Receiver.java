@@ -20,13 +20,16 @@ public class Receiver {
     private static final OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
     public static void main(String[] args) throws Exception {
+        LoadGenerator loadGenerator = new LoadGenerator(0, 10, 10);
+        loadGenerator.start();
+
         Server server = ServerBuilder.forPort(50051).addService(new ReceiverServiceImpl()).build().start();
         System.out.println("Receiver started on port 50051");
 
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(() -> {
-            if (System.currentTimeMillis() - lastReceived >= 50000) {
-                System.out.println("No data received for 50 seconds. Received values: " + valueHistory.size());
+            if (System.currentTimeMillis() - lastReceived >= 60000) {
+                System.out.println("No data received for 60 seconds. Received values: " + valueHistory.size());
                 server.shutdown();
                 scheduler.shutdown();
             }
@@ -43,7 +46,6 @@ public class Receiver {
                 public void onNext(WeatherDataRequest request) {
                     valueHistory.add(request.getTemperature());
                     lastReceived = System.currentTimeMillis();
-                    System.out.println("Timestamp: " + request.getTimestamp() + ", Temperature: " + request.getTemperature());
                 }
 
                 @Override
