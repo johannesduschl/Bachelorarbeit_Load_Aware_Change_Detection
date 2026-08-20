@@ -1,0 +1,8 @@
+MAE (baseline) aus experiment statisch
+
+MAE (normalized) = MAE / MAE (baseline)
+
+TR := transmission rate
+
+e.g. lambda = 0.5
+Metrik = lambda * TR + (1 - lambda) * MAE (normalized)

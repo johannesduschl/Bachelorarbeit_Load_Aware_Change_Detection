@@ -44,4 +44,9 @@ public class BenchmarkResult {
      * MAE multiplied with the transmissionRate
      */
     private final double maeTimesTransmissionRate;
+
+    /**
+     * Latency in ns as the 99th percentile for each event
+     */
+    private final long latency;
 }

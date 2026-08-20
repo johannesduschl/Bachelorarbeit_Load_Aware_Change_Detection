@@ -1,3 +1,18 @@
+
+
+
 Load-aware, 10k points, up to 10 random threads
 BenchmarkResult(sentCount=1913, discardedCount=8087, transmissionRate=0.1913, mae=1.4739338197106486,
 rmse=1.8883569848805042, maxError=6.964599999999997, maeTimesTransmissionRate=0.2819635397106471)
+
+=> F1-score = (2 * transmissionrate * mae) / (transmissionrate + mae) = 0.246
+
+Adaptive, 10k points, up to 10 random threads
+BenchmarkResult(sentCount=1652, discardedCount=8348, transmissionRate=0.1652, mae=1.5227003354096735,
+rmse=1.9505478202857183, maxError=5.663899999999998, maeTimesTransmissionRate=0.2515500954096781)
+
+=> F1-score = (2 * transmissionrate * mae) / (transmissionrate + mae) = 0.246
+
+
+=> utliization auf nahe 100% gehen
+=> entweder load pattern speichern und simulieren oder load generator history speichern und dokumentieren

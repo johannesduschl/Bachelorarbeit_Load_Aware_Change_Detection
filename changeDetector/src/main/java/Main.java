@@ -1,6 +1,5 @@
-import change_detection_approaches.AdaptiveCusumChangeDetector;
 import change_detection_approaches.LoadAwareAdaptiveChangeDetector;
-import common.ChangeDetector;
+import change_detection_approaches.ChangeDetector;
 import change_detection_approaches.StaticCusumChangeDetector;
 import weatherData.DataService;
 import io.grpc.Server;

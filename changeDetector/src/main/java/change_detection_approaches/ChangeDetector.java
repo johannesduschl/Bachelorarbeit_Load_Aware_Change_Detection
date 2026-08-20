@@ -1,5 +1,8 @@
-package common;
+package change_detection_approaches;
 
+import common.ChangeDetectionBenchmark;
+import common.ReceiverClient;
+import common.SensorData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,7 +38,6 @@ public abstract class ChangeDetector {
     public void printBenchmarkResults(){
         System.out.println(benchmark.calculateResults());
     }
-
 
 
     public abstract void sendSensorData(SensorData entry);

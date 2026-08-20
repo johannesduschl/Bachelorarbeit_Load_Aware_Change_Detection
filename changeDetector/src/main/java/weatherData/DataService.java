@@ -1,6 +1,6 @@
 package weatherData;
 
-import common.ChangeDetector;
+import change_detection_approaches.ChangeDetector;
 import common.SensorData;
 import io.grpc.stub.StreamObserver;
 import lombok.AllArgsConstructor;

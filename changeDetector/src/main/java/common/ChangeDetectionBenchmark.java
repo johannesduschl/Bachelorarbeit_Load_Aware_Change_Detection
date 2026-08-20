@@ -6,10 +6,12 @@ import java.util.List;
 public class ChangeDetectionBenchmark {
     private final List<SensorData> allData = new ArrayList<>();
     private final List<Boolean> sentFlags = new ArrayList<>();
+    private final List<Long> latencies = new ArrayList<>();
 
-    public void storeData(SensorData data, boolean wasSent) {
+    public void storeData(SensorData data, boolean wasSent, long latency) {
         allData.add(data);
         sentFlags.add(wasSent);
+        latencies.add(latency);
     }
 
     public BenchmarkResult calculateResults() {
@@ -50,6 +52,11 @@ public class ChangeDetectionBenchmark {
         double rmse = discardedCount > 0 ? Math.sqrt(squaredErrorSum / discardedCount) : 0;
         double maeTimesTransmissionRate = mae * transmissionRate;
 
-        return new BenchmarkResult(sentCount, discardedCount, transmissionRate, mae, rmse, maxError, maeTimesTransmissionRate);
+        List<Long> sortedLatencies = new ArrayList<>(latencies);
+        sortedLatencies.sort(Long::compareTo);
+        int percentileIndex = (int) Math.ceil(0.99 * sortedLatencies.size()) - 1;
+        long latency = sortedLatencies.get(percentileIndex);
+
+        return new BenchmarkResult(sentCount, discardedCount, transmissionRate, mae, rmse, maxError, maeTimesTransmissionRate, latency);
     }
 }

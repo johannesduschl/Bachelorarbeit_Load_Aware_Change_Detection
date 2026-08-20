@@ -1,6 +1,5 @@
 package change_detection_approaches;
 
-import common.ChangeDetector;
 import common.SensorData;
 
 public class StaticCusumChangeDetector extends ChangeDetector {
@@ -9,6 +8,7 @@ public class StaticCusumChangeDetector extends ChangeDetector {
 
     @Override
     public void sendSensorData(SensorData data) {
+        long startTime = System.nanoTime();
         resetInactivityTimer();
 
         double value = data.getValue();
@@ -23,13 +23,13 @@ public class StaticCusumChangeDetector extends ChangeDetector {
         boolean negativeChange = negativeCusum > H;
         boolean changeDetected = positiveChange || negativeChange;
 
-
-        benchmark.storeData(data, changeDetected);
-
         if (changeDetected) {
             receiverClient.send(data);
             positiveCusum = 0;
             negativeCusum = 0;
         }
+
+        long latency = System.nanoTime() - startTime;
+        benchmark.storeData(data, changeDetected, latency);
     }
 }

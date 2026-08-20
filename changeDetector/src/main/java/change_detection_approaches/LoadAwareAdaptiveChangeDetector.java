@@ -1,6 +1,5 @@
 package change_detection_approaches;
 
-import common.ChangeDetector;
 import common.SensorData;
 
 import java.util.concurrent.Executors;
@@ -44,6 +43,7 @@ public class LoadAwareAdaptiveChangeDetector extends ChangeDetector {
 
     @Override
     public void sendSensorData(SensorData data) {
+        long startTime = System.nanoTime();
         resetInactivityTimer();
 
         double value = data.getValue();
@@ -55,7 +55,7 @@ public class LoadAwareAdaptiveChangeDetector extends ChangeDetector {
         negativeCusum = Math.max(0, negativeCusum - deviation - K);
 
         boolean changeDetected = positiveCusum > H || negativeCusum > H;
-        benchmark.storeData(data, changeDetected);
+
 
         String changeStatus = changeDetected ? "<--- Change Detected" : "";
         System.out.printf("Utilization = %f; Value = %f; Mean = %f; Deviation = %f; K = %f; H = %f; %s%n", utilization, value, runningMean, deviation, K, H, changeStatus);
@@ -69,5 +69,7 @@ public class LoadAwareAdaptiveChangeDetector extends ChangeDetector {
             this.runningMean = (1 - alpha) * runningMean + alpha * data.getValue();
         }
 
+        long latency = System.nanoTime() - startTime;
+        benchmark.storeData(data, changeDetected, latency);
     }
 }

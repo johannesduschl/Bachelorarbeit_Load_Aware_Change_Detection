@@ -1,6 +1,5 @@
 package change_detection_approaches;
 
-import common.ChangeDetector;
 import common.SensorData;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +19,7 @@ public class AdaptiveCusumChangeDetector extends ChangeDetector {
 
     @Override
     public void sendSensorData(SensorData data) {
+        long startTime = System.nanoTime();
         resetInactivityTimer();
 
         double value = data.getValue();
@@ -31,7 +31,6 @@ public class AdaptiveCusumChangeDetector extends ChangeDetector {
         negativeCusum = Math.max(0, negativeCusum - deviation - K);
 
         boolean changeDetected = positiveCusum > H || negativeCusum > H;
-        benchmark.storeData(data, changeDetected);
 
         String changeStatus = changeDetected ? "<--- Change Detected" : "";
         System.out.printf("Value = %f; Mean = %f; Deviation = %f; %s}%n", value, runningMean, deviation, changeStatus);
@@ -44,5 +43,8 @@ public class AdaptiveCusumChangeDetector extends ChangeDetector {
         } else {
             this.runningMean = (1 - alpha) * runningMean + alpha * data.getValue();
         }
+
+        long latency = System.nanoTime() - startTime;
+        benchmark.storeData(data, changeDetected, latency);
     }
 }
