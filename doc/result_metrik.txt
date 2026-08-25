@@ -1,4 +1,5 @@
 MAE (baseline) aus experiment statisch
+MAE (baseline) = 24.688743236106145
 
 MAE (normalized) = MAE / MAE (baseline)
 
@@ -6,3 +7,5 @@ TR := transmission rate
 
 e.g. lambda = 0.5
 Metrik = lambda * TR + (1 - lambda) * MAE (normalized)
+
+Y. Li and L. Peng, “Event-triggered sensor data transmission policy for receding horizon recursive state estimation,” 2017.

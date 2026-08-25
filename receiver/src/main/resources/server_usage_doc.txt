@@ -1,0 +1,16 @@
+https://github.com/alibaba/clusterdata/tree/master
+
+https://github.com/alibaba/clusterdata/blob/master/cluster-trace-v2017/trace_201708.md
+
+Machine utilization(server_usage.csv)
+timestamp
+machineID
+util:CPU
+util:memory
+util:disk
+load1: linux cpu load average of 1 minute
+load5: linux cpu load average of 5 minute
+load15: linux cpu load average of 15 minute
+
+machineID = 1036 => high load spikes
+machineID = 436 => load averages at around 20%, minor load spikes

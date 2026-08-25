@@ -50,13 +50,13 @@ public class ChangeDetectionBenchmark {
         double transmissionRate = (double) sentCount / totalCount;
         double mae = discardedCount > 0 ? absoluteErrorSum / discardedCount : 0;
         double rmse = discardedCount > 0 ? Math.sqrt(squaredErrorSum / discardedCount) : 0;
-        double maeTimesTransmissionRate = mae * transmissionRate;
+        double maeTRMetric = 0.5 * transmissionRate + 0.5 * (mae / 24.688743236106145);
 
         List<Long> sortedLatencies = new ArrayList<>(latencies);
         sortedLatencies.sort(Long::compareTo);
         int percentileIndex = (int) Math.ceil(0.99 * sortedLatencies.size()) - 1;
         long latency = sortedLatencies.get(percentileIndex);
 
-        return new BenchmarkResult(sentCount, discardedCount, transmissionRate, mae, rmse, maxError, maeTimesTransmissionRate, latency);
+        return new BenchmarkResult(sentCount, discardedCount, transmissionRate, mae, rmse, maxError, maeTRMetric, latency);
     }
 }

@@ -1,0 +1,4 @@
+static:
+BenchmarkResult(sentCount=68386, discardedCount=931614, transmissionRate=0.068386,
+mae=24.688743236106145, rmse=109.57648434819826, maxError=9031.1567, maeTimesTransmissionRate=1.688364394944355,
+latency=356615)

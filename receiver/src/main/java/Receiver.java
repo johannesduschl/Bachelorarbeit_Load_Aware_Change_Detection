@@ -11,19 +11,15 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.lang.management.ManagementFactory;
-import com.sun.management.OperatingSystemMXBean;
 
 public class Receiver {
     private static final List<Double> valueHistory = new ArrayList<>();
     private static volatile long lastReceived = System.currentTimeMillis();
-    private static final OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
     public static void main(String[] args) throws Exception {
-        LoadGenerator loadGenerator = new LoadGenerator(0, 10, 10);
-        loadGenerator.start();
+        LoadGenerator loadGenerator = new LoadGenerator();
 
-        Server server = ServerBuilder.forPort(50051).addService(new ReceiverServiceImpl()).build().start();
+        Server server = ServerBuilder.forPort(50051).addService(new ReceiverServiceImpl(loadGenerator)).build().start();
         System.out.println("Receiver started on port 50051");
 
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
@@ -39,6 +35,12 @@ public class Receiver {
     }
 
     static class ReceiverServiceImpl extends ReceiverServiceGrpc.ReceiverServiceImplBase {
+        private final LoadGenerator loadGenerator;
+
+        ReceiverServiceImpl(LoadGenerator loadGenerator) {
+            this.loadGenerator = loadGenerator;
+        }
+
         @Override
         public StreamObserver<WeatherDataRequest> sendWeatherData(StreamObserver<WeatherDataResponse> responseObserver) {
             return new StreamObserver<>() {
@@ -63,7 +65,7 @@ public class Receiver {
 
         @Override
         public void getUtilization(Empty request, StreamObserver<UtilizationResponse> responseObserver) {
-            double utilization = osBean.getCpuLoad();
+            double utilization = loadGenerator.getUtilization();
             responseObserver.onNext(UtilizationResponse.newBuilder().setUtilization(utilization).build());
             responseObserver.onCompleted();
         }

@@ -41,9 +41,10 @@ public class BenchmarkResult {
     private final double maxError;
 
     /**
-     * MAE multiplied with the transmissionRate
+     * = 0.5 * TR + 0.5 * (MAE / 24.688743236106145)
+     * where 24.688743236106145 is the max MAE for static approach on the whole dataset
      */
-    private final double maeTimesTransmissionRate;
+    private final double maeTRMetric;
 
     /**
      * Latency in ns as the 99th percentile for each event

@@ -1,51 +1,36 @@
-import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class LoadGenerator {
-    private final Random random = new Random();
-    private final int minThreads;
-    private final int maxThreads;
-    private final int durationSeconds;
+    private static final int MACHINE_ID = 1036;
+    private static final long INTERVAL_MS = 10_000;
+    private final List<Double> utilizationValues = new ArrayList<>();
+    private final long startTime;
 
-    public LoadGenerator(int minThreads, int maxThreads, int durationSeconds) {
-        this.minThreads = minThreads;
-        this.maxThreads = maxThreads;
-        this.durationSeconds = durationSeconds;
+    public LoadGenerator() {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("server_usage.csv"), StandardCharsets.UTF_8))) {
+            reader.readLine();
+            List<String[]> rows = new ArrayList<>();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] columns = line.split(",");
+                if (Integer.parseInt(columns[1].trim()) == MACHINE_ID) rows.add(columns);
+            }
+            rows.sort(Comparator.comparing(row -> row[0]));
+            for (String[] row : rows) utilizationValues.add(Double.parseDouble(row[2].trim()) / 100.0);
+        } catch (Exception e) {
+            throw new RuntimeException("Fehler beim Laden von server_usage.csv", e);
+        }
+        startTime = System.currentTimeMillis();
     }
 
-    public void start() {
-        Thread scheduler = new Thread(() -> {
-            while (!Thread.currentThread().isInterrupted()) {
-                int threadCount = minThreads + random.nextInt(maxThreads - minThreads + 1);
-                ExecutorService executor = Executors.newFixedThreadPool(threadCount);
-
-                System.out.println("[LOAD] Starting " + threadCount + " CPU threads for " + durationSeconds + " seconds");
-
-                for (int i = 0; i < threadCount; i++) {
-                    executor.submit(() -> {
-                        long end = System.nanoTime() + TimeUnit.SECONDS.toNanos(durationSeconds);
-                        double x = 0;
-                        while (System.nanoTime() < end) {
-                            x += Math.sqrt(x + 1.23456789);
-                            if (x > 1_000_000) x = 0;
-                        }
-                    });
-                }
-
-                executor.shutdown();
-
-                try {
-                    executor.awaitTermination(durationSeconds + 1, TimeUnit.SECONDS);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    break;
-                }
-            }
-        });
-
-        scheduler.setDaemon(true);
-        scheduler.start();
+    public double getUtilization() {
+        long elapsed = System.currentTimeMillis() - startTime;
+        int currentIndex = (int) ((elapsed / INTERVAL_MS) % utilizationValues.size());
+        return utilizationValues.get(currentIndex);
     }
 }
