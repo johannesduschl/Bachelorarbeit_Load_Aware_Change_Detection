@@ -22,15 +22,6 @@ public class Receiver {
         Server server = ServerBuilder.forPort(50051).addService(new ReceiverServiceImpl(loadGenerator)).build().start();
         System.out.println("Receiver started on port 50051");
 
-        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(() -> {
-            if (System.currentTimeMillis() - lastReceived >= 60000) {
-                System.out.println("No data received for 60 seconds. Received values: " + valueHistory.size());
-                server.shutdown();
-                scheduler.shutdown();
-            }
-        }, 10, 1, TimeUnit.SECONDS);
-
         server.awaitTermination();
     }
 
