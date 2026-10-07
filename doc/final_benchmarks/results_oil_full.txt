@@ -1,0 +1,3 @@
+Static (baseline):
+BenchmarkResult(sentCount=190269, discardedCount=809731, transmissionRate=0.190269, mae=1.6297199934295592,
+rmse=2.808614890532078, maxError=22.700000000000003, maeTRMetric=0.1281398250958147, latency=351213)

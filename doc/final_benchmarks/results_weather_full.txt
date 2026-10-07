@@ -1,0 +1,15 @@
+static:
+BenchmarkResult(sentCount=68386, discardedCount=931614, transmissionRate=0.068386,
+mae=24.688743236106145, rmse=109.57648434819826, maxError=9031.1567, maeTRMetric=0.534193,
+latency=399518)
+
+adaptive:
+BenchmarkResult(sentCount=42239, discardedCount=957761, transmissionRate=0.042239,
+mae=4.94793776167354, rmse=6.47042475892013, maxError=40.913561, maeTRMetric=0.12132585142005547,
+latency=452918)
+
+
+load-aware:
+BenchmarkResult(sentCount=50951, discardedCount=949049, transmissionRate=0.050951,
+mae=4.527051735437886, rmse=6.060912563838332, maxError=56.41191, maeTRMetric=0.1171580067226849,
+latency=502322)
