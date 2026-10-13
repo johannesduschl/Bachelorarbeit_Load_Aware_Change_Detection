@@ -1,3 +1,14 @@
 Static (baseline):
 BenchmarkResult(sentCount=190269, discardedCount=809731, transmissionRate=0.190269, mae=1.6297199934295592,
 rmse=2.808614890532078, maxError=22.700000000000003, maeTRMetric=0.1281398250958147, latency=351213)
+
+Adaptive:
+BenchmarkResult(sentCount=11740, discardedCount=988260, transmissionRate=0.01174, mae=3.745119705340632,
+rmse=4.7143034305178375, maxError=28.35000000000001, maeTRMetric=0.08171670611875391, latency=470519)
+
+Load-aware:
+BenchmarkResult(sentCount=17883, discardedCount=982117, transmissionRate=0.017883, mae=2.998169948184317,
+rmse=3.797602882306954, maxError=27.34999999999998, maeTRMetric=0.06966087156767932, latency=484816)
+
+Received global mean: 60.9145434500342
+Received global sigma: 6.73824648440453

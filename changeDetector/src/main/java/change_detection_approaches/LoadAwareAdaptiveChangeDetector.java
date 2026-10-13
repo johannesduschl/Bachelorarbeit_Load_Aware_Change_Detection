@@ -57,8 +57,8 @@ public class LoadAwareAdaptiveChangeDetector extends ChangeDetector {
         boolean changeDetected = positiveCusum > H || negativeCusum > H;
 
 
-        String changeStatus = changeDetected ? "<--- Change Detected" : "";
-        System.out.printf("Utilization = %f; Value = %f; Mean = %f; Deviation = %f; K = %f; H = %f; %s%n", utilization, value, runningMean, deviation, K, H, changeStatus);
+        //String changeStatus = changeDetected ? "<--- Change Detected" : "";
+        //System.out.printf("Utilization = %f; Value = %f; Mean = %f; Deviation = %f; K = %f; H = %f; %s%n", utilization, value, runningMean, deviation, K, H, changeStatus);
 
         if (changeDetected) {
             receiverClient.send(data);

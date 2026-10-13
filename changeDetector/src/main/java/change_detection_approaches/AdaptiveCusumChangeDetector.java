@@ -32,8 +32,8 @@ public class AdaptiveCusumChangeDetector extends ChangeDetector {
 
         boolean changeDetected = positiveCusum > H || negativeCusum > H;
 
-        String changeStatus = changeDetected ? "<--- Change Detected" : "";
-        System.out.printf("Value = %f; Mean = %f; Deviation = %f; %s}%n", value, runningMean, deviation, changeStatus);
+        //String changeStatus = changeDetected ? "<--- Change Detected" : "";
+        //System.out.printf("Value = %f; Mean = %f; Deviation = %f; %s}%n", value, runningMean, deviation, changeStatus);
 
         if (changeDetected) {
             receiverClient.send(data);

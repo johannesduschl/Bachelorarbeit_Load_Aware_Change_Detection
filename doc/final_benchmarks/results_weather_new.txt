@@ -1,0 +1,7 @@
+1. STATIC:
+Received global mean: 38.80425256576808
+Received global sigma: 7.514628355280379
+No data received for 10 seconds.
+BenchmarkResult(sentCount=173051, discardedCount=992692, transmissionRate=0.14844695614728118,
+mae=5.749992326272073, rmse=9.257817722106822, maxError=58.811031, maeTRMetric=0.1906731545776875,
+latency=307217)

@@ -90,7 +90,7 @@ public class WeatherSensor {
                     .setTemperature(entry.getTemperature())
                     .build();
 
-            System.out.println("Sending data: Timestamp: " + entry.getTimestamp() + ", Temperature: " + entry.getTemperature());
+            //System.out.println("Sending data: Timestamp: " + entry.getTimestamp() + ", Temperature: " + entry.getTemperature());
             sender.onNext(request);
             Thread.sleep(MS_INTERVAL);
         }

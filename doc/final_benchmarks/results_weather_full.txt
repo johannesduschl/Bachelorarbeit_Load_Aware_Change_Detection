@@ -13,3 +13,6 @@ load-aware:
 BenchmarkResult(sentCount=50951, discardedCount=949049, transmissionRate=0.050951,
 mae=4.527051735437886, rmse=6.060912563838332, maxError=56.41191, maeTRMetric=0.1171580067226849,
 latency=502322)
+
+Received global mean: 37.74900709380577
+Received global sigma: 13.01006036852775

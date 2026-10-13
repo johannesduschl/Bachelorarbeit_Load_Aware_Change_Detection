@@ -11,10 +11,14 @@ import java.util.List;
 public class OilSensor {
 
     private static final OilDataLoader oilDataLoader = new OilDataLoader();
+    private static final boolean IS_ACTIVE = false;
     private static final int DATA_SIZE = 1_000_000;
     private static final int MS_INTERVAL = 10;
 
     public static void main(String[] args) {
+
+        if (!IS_ACTIVE) return;
+
         try {
             System.out.println("OIL SENSOR STARTED");
 
