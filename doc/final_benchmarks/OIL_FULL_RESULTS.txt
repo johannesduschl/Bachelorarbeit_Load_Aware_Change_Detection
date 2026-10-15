@@ -1,0 +1,41 @@
+Data:
+Received global mean: 60.9145434500342
+Received global sigma: 6.73824648440453
+
+
+1. STATIC:
+BenchmarkResult(sentCount=190269, discardedCount=809731, transmissionRate=0.190269,
+mae=1.6297199934295592, rmse=2.808614890532078, maxError=22.700000000000003, maeTRMetric=0.1281398250958147,
+latency=351213)
+
+Evaluation metric = 0.5 * 0.190269 + 0.5 * (1.6297199934295592 / 3.745119705340632) = 0.407769
+
+
+2. ADAPTIVE:
+BenchmarkResult(sentCount=11740, discardedCount=988260, transmissionRate=0.01174,
+mae=3.745119705340632, rmse=4.7143034305178375, maxError=28.35000000000001, maeTRMetric=0.08171670611875391,
+latency=470519)
+
+Evaluation metric = 0.5 * 0.01174 + 0.5 * (3.745119705340632 / 3.745119705340632) = 0.50587
+
+
+3. LOAD-AWARE:
+BenchmarkResult(sentCount=16999, discardedCount=983001, transmissionRate=0.016999,
+mae=3.2652546131684352, rmse=4.124956306957657, maxError=26.099999999999994, maeTRMetric=0.07462790884490936,
+latency=272011),
+
+BenchmarkResult(sentCount=17977, discardedCount=982023, transmissionRate=0.017977,
+mae=2.83689017466913, rmse=3.511985831424834, maxError=19.950000000000003, maeTRMetric=0.0664416102603941,
+latency=291312),
+
+BenchmarkResult(sentCount=26885, discardedCount=973115, transmissionRate=0.026885,
+mae=2.0472784562980597, rmse=2.6063757484569208, maxError=17.349999999999994, maeTRMetric=0.05490427949843979,
+latency=270612)
+
+Average MAE = (3.2652546131684352 + 2.83689017466913 + 2.0472784562980597) / 3 = 2.716474414045875
+
+Evaluation metric = 0.5 * 0.026885 + 0.5 * (2.716474414045875 / 3.745119705340632) = 0.373679
+
+
+
+

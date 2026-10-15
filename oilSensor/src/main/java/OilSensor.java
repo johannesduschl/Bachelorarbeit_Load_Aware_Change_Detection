@@ -11,9 +11,9 @@ import java.util.List;
 public class OilSensor {
 
     private static final OilDataLoader oilDataLoader = new OilDataLoader();
-    private static final boolean IS_ACTIVE = false;
-    private static final int DATA_SIZE = 1_000_000;
-    private static final int MS_INTERVAL = 10;
+    private static final boolean IS_ACTIVE = true;
+    private static final int DATA_SIZE = 10_000_000;
+    private static final int MS_INTERVAL = 1;
 
     public static void main(String[] args) {
 
@@ -89,7 +89,7 @@ public class OilSensor {
         for (OilData entry : data) {
             WeatherDataRequest request = WeatherDataRequest.newBuilder().setTimestamp(entry.getTimestamp().atZone(ZoneOffset.UTC).toEpochSecond()).setTemperature(entry.getOilTemperature()).build();
 
-            System.out.println("Sending oil data: Timestamp: " + entry.getTimestamp() + ", Oil temperature: " + entry.getOilTemperature());
+            //System.out.println("Sending oil data: Timestamp: " + entry.getTimestamp() + ", Oil temperature: " + entry.getOilTemperature());
 
             sender.onNext(request);
             Thread.sleep(MS_INTERVAL);
